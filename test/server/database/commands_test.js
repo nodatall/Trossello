@@ -196,7 +196,7 @@ describe('database.commands', () => {
     })
   })
 
-  describe('createCard', () => {
+  describe.only('createCard', () => {
     it('should insert a card into the cards table', () => {
       return knex.table('cards').count()
         .then((results) => {
