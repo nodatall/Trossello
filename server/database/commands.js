@@ -188,40 +188,19 @@ const deleteList = (id) =>
   ])
 
 const createCard = (attributes) => {
-  let order = null
-  if (attributes.hasOwnProperty('order')) {
-    order = attributes.order
-    attributes.order = 0
-  }
   return knex
     .table('cards')
     .insert(attributes)
     .orderBy('order', 'asc')
     .returning('*')
     .then(firstRecord)
-
-    // .table('cards')
-    // .where({list_id: attributes.list_id})
-    // .orderBy('order', 'desc')
-    // .limit(1)
-    // .then( ([result]) => {
-    //   attributes.order = result ? result.order + 1 : 0
-    //   return knex
-    //     .table('cards')
-    //     .insert(attributes)
-    //     .returning('*')
-    //     .then(firstRecord)
-    // })
     .then( card => {
-      if (order !== null) {
         moveCard({
           boardId: card.board_id,
           cardId: card.id,
           listId: card.list_id,
-          order: order
-        })
-        card.order = order
-      }
+          order: attributes.order
+      })
       return card
     })
 }
