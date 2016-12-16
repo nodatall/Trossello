@@ -24,44 +24,25 @@ describe('Board Show Page Tests for Lists', () => {
         })
 
         it('can create a new list', function(done){
-          this.timeout(20000)
+          this.timeout(100000)
           this.browser.visit('/boards/101')
-          this.browser.wait(until.elementLocated(By.css('Link Link-default BoardShowPage-NewListForm-Link'), 10000)).sendKeys('Created List4')
-          this.browser.findElement(By.css('body')).click()
-          this.browser.wait(until.elementLocated(By.xpath('//div[@class="BoardShowPage-ListHeader" and ./div[contains(.,"Created List4")]]')), 5000)
+          this.browser.wait(until.elementLocated(By.className('BoardShowPage-NewListForm-Link'), 2000)).click()
+          this.browser.findElement(By.css('.BoardShowPage-NewListForm-Form > form > input')).sendKeys('List3')
+          this.browser.findElement(By.className('Button-primary')).click()
+          this.browser.findElement(By.className('Icon fa fa-times')).click()
+          this.browser.sleep(1000)
+          this.browser.wait(until.elementLocated(By.xpath('//div[@class="BoardShowPage-ListHeader" and ./div[contains(.,"List3")]]')), 5000)
+          this.browser.sleep(5000)
           this.browser.then(_ => done())
         })
 
-        it.only('can change the order of the lists on the board using drag and drop', function(done){
-          this.timeout(60000)
-          const browser = this.browser
-          this.browser.visit('/boards/101')
-          this.browser.wait(until.elementLocated(By.xpath('//div[@data-list-id="40"]'), 2000))
-          let startLocation
-          this.browser.findElement(By.xpath('//div[@data-list-id="40"]')).then(function(element){
-            startLocation = element
-            return
-          })
-          let dropLocation
-          this.browser.findElement(By.xpath('//div[@data-list-id="41"]')).then(function(element){
-            dropLocation = element
-            return
-          })
-          this.browser.sleep(3000)
-          console.log(dropLocation)
-          // this.browser.findElements(By.className('BoardShowPage-List')).then(function(lists){
-          //   this.browser.findElement(By.xpath('//div[@data-list-id="40"]')).then(function(list1){
-          //     return expect(lists[0]).to.eql(list1)
-          //   })
-          //  })
-          this.browser.sleep(3000)
-          this.browser.findElement(By.xpath('//div[@data-list-id="40"]')).dragAndDrop().perform()
-
-          // console.log('whatchu got', this.browser.React.PropTypes.stringions().dragAndDrop(startLocation, dropLocation).perform())
-          // this.browser.actions().mouseDown(startLocation).mouseMove(dropLocation).mouseUp().perform()
-          this.browser.sleep(5000)
-          this.browser.then(_=> done())
-        })
+        // it.only('can copy a list using the list popover menu', function(done){
+        //   this.timeout(100000)
+        //   this.browser.visit('/boards/101')
+        //   this.browser.getId('list-actions-button').click()
+        //   this.browser.sleep(10000)
+        //   this.browser.then(_ => done())
+        // })
       })
     })
   })
