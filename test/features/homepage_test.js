@@ -51,7 +51,21 @@ describe('Homepage tests', () => {
           this.browser.then(_ => done())
         })
       })
-    })
 
+      describe('when a user without boards is logged in', () => {
+        beforeEach(function(){
+          return this.loginAs(1465)
+        })
+        it('Should go to the list of boards and star a board', function(done){
+          this.timeout(10 * (1000 * 60));
+          this.browser.visit('/');
+          this.browser.wait(until.elementLocated(By.className('LoggedInHomepage-BoardListHeading')), 10000);
+          this.browser.sleep(15000)
+          this.browser.findElement(By.className('LoggedInHomepage-BoardListHeading')).getText()
+          .then(result => expect(result).to.eql('All Boards'))
+          this.browser.then(_ => done())
+        })
+      })
+    })
   })
 })
